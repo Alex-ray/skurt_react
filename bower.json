@@ -1,0 +1,21 @@
+{
+  "name": "Skurt-Real-Life-Interview",
+  "version": "0.0.0",
+  "homepage": "https://github.com/skurtapp/Skurt-Real-Life-Interview",
+  "authors": [
+    "Xiaoyu Yin <yin530@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0"
+  }
+}

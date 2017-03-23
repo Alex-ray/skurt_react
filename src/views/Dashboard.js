@@ -1,5 +1,10 @@
+// Libraries
 import React from 'react';
 import $ from 'jquery';
+
+// Components
+import {FlightDelaySearchForm} from './../components/FlightDelaySearchForm.js';
+import {Logo} from './../components/Logo.js';
 
 class Dashboard extends React.Component {
 	render () {
@@ -7,19 +12,9 @@ class Dashboard extends React.Component {
 			<section className='vertical-horizontal-center'>
 				<div className='container-fluid container'>
 					<div className='row text-center dashboard-logo'>
-						<img src='images/logo.png' class="img-responsive" alt="Skurt"/>
+						<Logo />
 					</div>
-					<form role="form">
-						<div className="row form-group">
-							<div className='col-sm-6 col-sm-offset-3'>
-								<input type="text" className="form-control" placeholder="Search Flight" />
-							</div>
-						</div>
-
-						<div className='row text-center dashboard-form-action-group'>
-							<button type="submit" className="btn btn-default">Search</button>
-						</div>
-					</form>
+					<FlightDelaySearchForm />
 				</div>
 			</section>
 		);

@@ -3,8 +3,10 @@ import React from 'react';
 import $ from 'jquery';
 
 // Components
-import {FlightDelaySearchForm} from './../components/FlightDelaySearchForm.js';
 import {Logo} from './../components/Logo.js';
+
+// Containers
+import FlightDelaySearchContainer from './../containers/FlightDelaySearchContainer.js';
 
 class Dashboard extends React.Component {
 	render () {
@@ -14,7 +16,7 @@ class Dashboard extends React.Component {
 					<div className='row text-center dashboard-logo'>
 						<Logo />
 					</div>
-					<FlightDelaySearchForm />
+					<FlightDelaySearchContainer />
 				</div>
 			</section>
 		);

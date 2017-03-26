@@ -68,7 +68,7 @@ gulp.task('watchify', () => {
 
 gulp.task('browserify', () => {
   browserify(paths.srcJsx)
-  .transform('babelify')
+  .transform(babelify)
   .bundle()
   .pipe(source(paths.bundle))
   .pipe(buffer())

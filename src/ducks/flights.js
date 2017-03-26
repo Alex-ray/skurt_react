@@ -18,8 +18,6 @@ export const reducer = function (state = initialState, action = { }) {
       let currentDirectory = state.get('directory').toJS();
       currentDirectory[action.flightId] = action.flight;
 
-      console.log(action);
-
       return state.merge({
         searching: false,
         directory: currentDirectory

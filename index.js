@@ -21,13 +21,13 @@ var config = {
 
 app.set('view engine', 'html');
 
+let staticFolder = app.get('env') === 'development' ? '/.dist' : '/dist';
 
-if (app.get('env') === 'development') {
-	console.log('dev');
-	app.use(express.static(__dirname + '/.dist'));
-} else {
-	app.use(express.static(__dirname + '/dist'));
-}
+app.use('/static', express.static(__dirname + staticFolder));
+
+app.get('/*', function(req, res){
+  res.sendFile(__dirname + staticFolder + '/index.html');
+});
 
 // Start server
 server.listen(config.port, config.ip, function () {

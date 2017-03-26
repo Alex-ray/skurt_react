@@ -1,20 +1,37 @@
 // Libraries
-import React, {Component} from 'react';
-import $ from 'jquery';
+import React, {Component, PropTypes} from 'react';
 
-// Components
-import {Logo} from './../components/Logo.js';
+// Containers
+import FlightStatusContainer from './../containers/FlightStatusContainer.js';
+
+
+const propTypes = {
+	match: {
+		params: {
+			flightId: PropTypes.string.isRequired
+		}
+	}
+};
 
 class FlightStatus extends Component {
+
 	render () {
+		let flightId = this.props.match.params.flightId;
+
 		return (
 			<section className='vertical-horizontal-center'>
 				<div className='container-fluid container'>
-					<div className='row text-center dashboard-logo'></div>
+					<div className='row'>
+						<div className='col-sm-6 col-sm-offset-3'>
+							<FlightStatusContainer flightId={flightId} />
+						</div>
+					</div>
 				</div>
 			</section>
 		);
 	}
 }
+
+FlightStatus.propTyps = propTypes;
 
 export default FlightStatus;

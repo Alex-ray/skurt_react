@@ -2,9 +2,9 @@
 import 'babel-polyfill';
 import {
   createStore,
-  applyMiddleware,
-  combineReducers
+  applyMiddleware
 } from 'redux';
+import {combineReducers} from 'redux-immutable';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';

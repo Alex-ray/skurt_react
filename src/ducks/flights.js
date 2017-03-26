@@ -36,12 +36,14 @@ export const reducer = function (state = initialState, action = { }) {
   }
 }
 
-function _fetchFlights (carrier, number, successCallback, errorCallback) {
-  let d = new Date();
-
-  let day   = d.getDate();
-  let month = d.getMonth()+1;
-  let year  = d.getFullYear();
+function _fetchFlights (
+  carrier,
+  number,
+  day,
+  month,
+  year,
+  successCallback,
+  errorCallback ) {
 
   const flightStats = window.env.default.flightStats;
 
@@ -76,7 +78,19 @@ export function searchFlights (dispatch) {
   return (searchValue, airlineCode, flightNumber) => {
     dispatch({type: FLIGHTS_SEARCHING});
 
-    _fetchFlights(airlineCode, flightNumber, (response) => {
+    let d = new Date();
+
+    let day   = d.getDate();
+    let month = d.getMonth()+1;
+    let year  = d.getFullYear();
+
+    fetchFlight(dispatch)(year, month, day, airlineCode, flightNumber)
+  };
+}
+
+export function fetchFlight (dispatch) {
+  return (year, month, day, airlineCode, flightNumber) => {
+    _fetchFlights(airlineCode, flightNumber, day, month, year, (response) => {
 
       const airlineCode  = response.request.airline.fsCode;
       const flightNumber = response.request.flight.interpreted;
@@ -85,7 +99,7 @@ export function searchFlights (dispatch) {
       const month = response.request.date.month;
       const day   = response.request.date.day;
 
-      const flightId = `${year}-${month}-${day}-${airlineCode}${flightNumber}`;
+      const flightId = `${year}-${month}-${day}-${airlineCode}-${flightNumber}`;
 
       dispatch({
         type: FLIGHTS_SET_FLIGHT_TRACK,
@@ -97,5 +111,19 @@ export function searchFlights (dispatch) {
     }, (error) => {
       console.log('TODO: handleerror');
     });
+  };
+}
+
+export function fetchFlightById (dispatch) {
+  return (flightId) => {
+    let flightData = flightId.split('-');
+
+    let year = flightData[0];
+    let month = flightData[1];
+    let day = flightData[2];
+    let airlineCode = flightData[3];
+    let flightNumber = flightData[4];
+
+    fetchFlight(dispatch)(year, month, day, airlineCode, flightNumber);
   };
 }

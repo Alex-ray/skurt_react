@@ -101,8 +101,8 @@ gulp.task('htmlReplace', () => {
     env: {
       src: null,
       tpl: `<script>window.env = ${JSON.stringify(env())}</script>`
-    }, js: 'js/app.js',
-    css: 'styles/app.css'
+    }, js: '/static/js/app.js',
+    css: '/static/styles/app.css'
   }))
   .pipe(gulp.dest(`${prod ? '' : '.'}${paths.dist}`));
 });

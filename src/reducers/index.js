@@ -1,12 +1,13 @@
 // Libraries
-import {combineReducers} from 'redux-immutable';
+import {routerReducer} from 'react-router-redux';
 
 // Reducers
 import {reducer as flightReducer} from '../ducks/flights.js';
 
 const reducers = {
+  router: routerReducer,
   flights: flightReducer
 };
 
 
-export default combineReducers(reducers);
+export default reducers;

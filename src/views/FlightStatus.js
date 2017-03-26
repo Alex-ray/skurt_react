@@ -5,22 +5,16 @@ import $ from 'jquery';
 // Components
 import {Logo} from './../components/Logo.js';
 
-// Containers
-import FlightDelaySearchContainer from './../containers/FlightDelaySearchContainer.js';
-
-class Dashboard extends Component {
+class FlightStatus extends Component {
 	render () {
 		return (
 			<section className='vertical-horizontal-center'>
 				<div className='container-fluid container'>
-					<div className='row text-center dashboard-logo'>
-						<Logo />
-					</div>
-					<FlightDelaySearchContainer />
+					<div className='row text-center dashboard-logo'></div>
 				</div>
 			</section>
 		);
 	}
 }
 
-export default Dashboard;
+export default FlightStatus;

@@ -1,6 +1,7 @@
 import {fromJS} from 'immutable';
 import qs       from 'qs';
 import $ from 'jQuery';
+import { push } from 'react-router-redux';
 
 const initialState = fromJS({
   directory: {},
@@ -74,20 +75,25 @@ function _fetchFlights (carrier, number, successCallback, errorCallback) {
 export function searchFlights (dispatch) {
   return (searchValue, airlineCode, flightNumber) => {
     dispatch({type: FLIGHTS_SEARCHING});
+
     _fetchFlights(airlineCode, flightNumber, (response) => {
 
-      let airlineCode  = response.request.airline.fsCode;
-      let flightNumber = response.request.flight.interpreted;
+      const airlineCode  = response.request.airline.fsCode;
+      const flightNumber = response.request.flight.interpreted;
 
-      let year  = response.request.date.year;
-      let month = response.request.date.month;
-      let day   = response.request.date.day;
+      const year  = response.request.date.year;
+      const month = response.request.date.month;
+      const day   = response.request.date.day;
+
+      const flightId = `${year}-${month}-${day}-${airlineCode}${flightNumber}`;
 
       dispatch({
         type: FLIGHTS_SET_FLIGHT_TRACK,
-        flightId: `${year}-${month}-${day}-${airlineCode}${flightNumber}`,
+        flightId: flightId,
         flight: response
       });
+
+      dispatch(push(`/status/${flightId}`));
     }, (error) => {
       console.log('TODO: handleerror');
     });

@@ -1,27 +1,40 @@
 // Libraries
 import 'babel-polyfill';
-import {createStore} from 'redux';
+import {
+  createStore,
+  applyMiddleware,
+  combineReducers
+} from 'redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import createHistory from 'history/createBrowserHistory';
+import {Route} from 'react-router-dom';
 import {
-  Router,
-  Route
-} from 'react-router';
+  ConnectedRouter,
+  routerMiddleware
+} from 'react-router-redux';
 
 // Views
 import Dashboard from './views/Dashboard.js';
+import FlightStatus from './views/FlightStatus.js';
 
 // Reducers
 import reducers from './reducers/index.js';
 
-let store = createStore(reducers);
+const history = createHistory();
+const middleware = routerMiddleware(history);
+
+let store = createStore(combineReducers(reducers), applyMiddleware(middleware));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <Route path='/' component={Dashboard}/>
-    </Router>
+    <ConnectedRouter history={history}>
+      <div>
+        <Route exact path='/' component={Dashboard}/>
+        <Route path='/status/:flightId' component={FlightStatus} />
+      </div>
+    </ConnectedRouter>
   </Provider>
   , document.getElementById('content')
 );

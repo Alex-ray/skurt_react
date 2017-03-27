@@ -3,11 +3,12 @@ import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import FlightDesignator from 'flight-designator';
 
+// Components
+import {ErrorList} from './ErrorList.js';
+
 const propTypes = {
-  error: PropTypes.string,
   onSubmit: PropTypes.func
 };
-
 
 class FlightDelaySearchForm extends Component {
   constructor (props) {
@@ -30,7 +31,8 @@ class FlightDelaySearchForm extends Component {
     let newState = {
       touched: true,
       valid: isValid,
-      searchValue: val
+      searchValue: val,
+      error: ''
     };
 
     if (isValid) {
@@ -78,23 +80,14 @@ class FlightDelaySearchForm extends Component {
       state: {
         searchValue,
         valid,
-        touched
+        touched,
+        error
       }
     } = this;
 
-    let errorMessage = this.state.error.length > 1 ?  this.state.error : this.props.error;
-
-    // TODO: Abstract into its own component for future re-use with other components
-    // AJR 03-27-17
-    let errors = (!touched || valid) && errorMessage.length === 0 ? null: (
-      <ol className='list-unstyled col-sm-6 col-sm-offset-3'>
-        <li className="alert alert-danger" role="alert">
-          <i className='fa fa-info-circle fa-fw'></i>
-          <span className="sr-only">Error:</span>
-          {errorMessage}
-        </li>
-      </ol>
-    );
+    let errors = touched && error.length > 0 ?
+                  (<ErrorList errors={[{message: error}]} />) :
+                  null;
 
     return (
       <form role="form" onSubmit={_onSubmit.bind(this)}>

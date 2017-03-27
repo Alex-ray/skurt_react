@@ -94,7 +94,7 @@ export function fetchFlight (dispatch) {
   return (year, month, day, airlineCode, flightNumber) => {
     _fetchFlights(airlineCode, flightNumber, day, month, year, (response) => {
       if (response.flightTracks.length === 0 ) {
-        flightError(dispatch)(`Could not find flight number ${response.request.airline.requestedCode} ${response.request.flight.requested}`);
+        flightError(dispatch)(`Could not find flight ${response.request.airline.requestedCode} ${response.request.flight.requested}`);
         dispatch(push('/'));
         return false;
       }

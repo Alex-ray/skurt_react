@@ -13,7 +13,6 @@ import {
 
 const propTypes = {
   loading: PropTypes.bool.isRequired,
-  error: PropTypes.string.isRequired,
   searchFlights: PropTypes.func.isRequired
 };
 
@@ -21,13 +20,12 @@ class FlightDelaySearchContainer extends Component {
   render () {
     const {
       loading,
-      error,
       searchFlights
     } = this.props;
 
     return (
       <div>
-        <FlightDelaySearchForm onSubmit={searchFlights} error={error} />
+        <FlightDelaySearchForm onSubmit={searchFlights} />
         <LoadingModal loading={loading}/>
       </div>
     );
@@ -36,8 +34,7 @@ class FlightDelaySearchContainer extends Component {
 
 function mapStateToProps (state) {
   return {
-    loading: state.getIn(['flights', 'searching']),
-    error: state.getIn(['flights', 'error'])
+    loading: state.getIn(['flights', 'searching'])
   };
 }
 

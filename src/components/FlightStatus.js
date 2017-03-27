@@ -35,13 +35,14 @@ class FlightStatus extends Component {
         <h1 className='panel-title panel-heading'>Flight Status : {textStatus}</h1>
         <div className='panel-body'>
           <p>
-              Flight {carrier} {flightNumber}<br/>
-              From: {departing} to {arriving}<br/>
+              <b>Flight:</b> {carrier} {flightNumber}<br/>
+              <b>From:</b> {departing} to {arriving}<br/>
 
-              Departure Date: {moment(departureDate.dateLocal).format('MM/DD')}<br/>
-              Departure Time: {moment(departureDate.dateLocal).format('hh:mm a')}<br/>
+              <b>Departure Date:</b> {moment(departureDate.dateLocal).format('MM/DD')}<br/>
+              <b>Scheduled Departure Time:</b> {moment(departureDate.dateLocal).format('hh:mm a')}<br/>
+              <b>Delayed Departure Time:</b> {moment(departureDate.dateLocal).add(delay, 'minutes').format('hh:mm a')}<br/>
 
-              Delay: {delay || 0} Minutes
+              <b>Delay:</b> {delay || 0} Minutes
           </p>
         </div>
       </div>

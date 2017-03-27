@@ -27,7 +27,7 @@ const paths = {
   srcJsx: 'src/Index.js',
   srcScss: 'src/less/app.less',
   srcScssDir: 'src/less/**/*.less',
-  srcFontsDir: ['node_modules/react-widgets/lib/fonts/**/*.{eot,svg,ttf,woff,woff2}', 'bower_components/bootstrap/fonts/**/*.{eot,svg,ttf,woff,woff2}', 'bower_components/font-awesome/fonts/**/*.{eot,svg,ttf,woff,woff2}'],
+  srcFontsDir: ['node_modules/react-widgets/lib/fonts/**/*.{eot,svg,ttf,woff,woff2}', 'bower_components/bootstrap/fonts/**/*.{eot,svg,ttf,woff,woff2}', 'node_modules/font-awesome/fonts/**/*.{eot,svg,ttf,woff,woff2}'],
   srcImg: 'src/images/**',
   dist: 'dist',
   distJs: 'dist/js',

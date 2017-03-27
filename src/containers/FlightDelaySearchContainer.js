@@ -4,26 +4,41 @@ import {connect} from 'react-redux';
 
 // Components
 import {FlightDelaySearchForm} from './../components/FlightDelaySearchForm.js';
+import {LoadingModal} from './../components/LoadingModal.js';
 
 // Actions
 import {
   searchFlights
 } from '../ducks/flights.js';
 
+const propTypes = {
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
+  searchFlights: PropTypes.func.isRequired
+};
+
 class FlightDelaySearchContainer extends Component {
   render () {
     const {
+      loading,
+      error,
       searchFlights
     } = this.props;
 
     return (
-      <FlightDelaySearchForm onSubmit={searchFlights} />
+      <div>
+        <FlightDelaySearchForm onSubmit={searchFlights} error={error} />
+        <LoadingModal loading={loading}/>
+      </div>
     );
   }
 }
 
 function mapStateToProps (state) {
-  return {};
+  return {
+    loading: state.getIn(['flights', 'searching']),
+    error: state.getIn(['flights', 'error'])
+  };
 }
 
 function mapDispatchToProps (dispatch) {
@@ -32,8 +47,6 @@ function mapDispatchToProps (dispatch) {
   };
 }
 
-FlightDelaySearchContainer.propTypes = {
-  searchFlights: PropTypes.func.isRequired
-};
+FlightDelaySearchContainer.propTypes = propTypes;
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlightDelaySearchContainer);

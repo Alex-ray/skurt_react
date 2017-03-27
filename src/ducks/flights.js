@@ -2,34 +2,36 @@ import {fromJS} from 'immutable';
 import qs       from 'qs';
 import $ from 'jQuery';
 import { push } from 'react-router-redux';
+import moment from 'moment';
 
 const initialState = fromJS({
   directory: {},
-  searching: false
+  searching: false,
+  error: ''
 });
 
 export const FLIGHTS_SEARCHING          = 'FLIGHTS_SEARCHING';
-export const FLIGHTS_SEARCHING_FINISHED = 'FLIGHTS_SEARCHING_FINISHED';
 export const FLIGHTS_SET_FLIGHT_TRACK   = 'FLIGHTS_SET_FLIGHT_TRACK';
+export const FLIGHTS_ERROR              = 'FLIGHTS_ERROR';
 
 export const reducer = function (state = initialState, action = { }) {
 
   switch(action.type) {
+    case FLIGHTS_ERROR:
+      return state.merge({
+        error: action.error
+      });
     case FLIGHTS_SET_FLIGHT_TRACK:
       let currentDirectory = state.get('directory').toJS();
       currentDirectory[action.flightId] = action.flight;
-
       return state.merge({
         searching: false,
         directory: currentDirectory
       });
     case FLIGHTS_SEARCHING:
       return state.merge({
+        error: '',
         searching: true
-      });
-    case FLIGHTS_SEARCHING_FINISHED:
-      return state.merge({
-        searching: false
       });
     default:
       return state;
@@ -91,6 +93,11 @@ export function searchFlights (dispatch) {
 export function fetchFlight (dispatch) {
   return (year, month, day, airlineCode, flightNumber) => {
     _fetchFlights(airlineCode, flightNumber, day, month, year, (response) => {
+      if (response.flightTracks.length === 0 ) {
+        flightError(dispatch)(`Could not find flight number ${response.request.airline.requestedCode} ${response.request.flight.requested}`);
+        dispatch(push('/'));
+        return false;
+      }
 
       const airlineCode  = response.request.airline.fsCode;
       const flightNumber = response.request.flight.interpreted;
@@ -98,6 +105,18 @@ export function fetchFlight (dispatch) {
       const year  = response.request.date.year;
       const month = response.request.date.month;
       const day   = response.request.date.day;
+
+      let localDate = response.flightTracks[response.flightTracks.length-1].departureDate.dateLocal;
+
+      let flightDate = moment(localDate);
+      let now        = moment();
+      let diff = now.diff(flightDate, 'hours');
+
+      if (Math.abs(diff) >= 24) {
+        flightError(dispatch)('Flight must be within 24 hours of now.');
+        dispatch(push('/'));
+        return false;
+      }
 
       const flightId = `${year}-${month}-${day}-${airlineCode}-${flightNumber}`;
 
@@ -109,9 +128,18 @@ export function fetchFlight (dispatch) {
 
       dispatch(push(`/status/${flightId}`));
     }, (error) => {
-      console.log('TODO: handleerror');
+      flightError(dispatch)('Ooops something went wrong!');
     });
   };
+}
+
+export function flightError(dispatch) {
+  return (errorMessage) => {
+    dispatch({
+      type: FLIGHTS_ERROR,
+      error: errorMessage
+    });
+  }
 }
 
 export function fetchFlightById (dispatch) {

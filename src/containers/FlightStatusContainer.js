@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 // Components
 import {FlightStatus} from './../components/FlightStatus.js';
+import {LoadingModal} from './../components/LoadingModal.js';
 
 // Actions
 import {
@@ -10,14 +11,12 @@ import {
 } from './../ducks/flights.js';
 
 const propTypes = {
-  // Own Props
   flightId: PropTypes.string.isRequired,
   track: PropTypes.object.isRequired,
   flightLoaded: PropTypes.bool.isRequired,
 };
 
 class FlightStatusContainer extends Component {
-
   render () {
     const {
       track: {
@@ -25,21 +24,24 @@ class FlightStatusContainer extends Component {
         arrivalAirportFsCode,
         departureAirportFsCode,
         carrierFsCode,
-        flightNumber
+        flightNumber,
+        departureDate
       },
       flightLoaded
     } = this.props;
 
-    console.log(this.props.track);
     return (
-      <FlightStatus
-        loading={!flightLoaded}
-        delay={delayMinutes}
-        departing={departureAirportFsCode}
-        arriving={arrivalAirportFsCode}
-        carrier={carrierFsCode}
-        flightNumber={flightNumber}
-      />
+      <div>
+        <FlightStatus
+          delay={delayMinutes}
+          departing={departureAirportFsCode}
+          arriving={arrivalAirportFsCode}
+          carrier={carrierFsCode}
+          flightNumber={flightNumber}
+          departureDate={departureDate}
+        />
+        <LoadingModal loading={!flightLoaded} />
+      </div>
     );
   }
 

@@ -7,6 +7,7 @@ import FlightDesignator from 'flight-designator';
 import {ErrorList} from './ErrorList.js';
 
 const propTypes = {
+  serverError: PropTypes.string,
   onSubmit: PropTypes.func
 };
 
@@ -41,7 +42,7 @@ class FlightDelaySearchForm extends Component {
       newState.airlineCode  =  designatorInfo.airlineCode;
       newState.flightNumber = designatorInfo.flightNumber;
     } else {
-      newState.error = 'Must be a valid flight in the format of Airline Code (KLM) Flight Number (645).';
+      newState.error = 'Must be a valid flight in the format of Airline Code (AA) Flight Number (100).';
     }
 
     this.setState(newState);
@@ -77,6 +78,9 @@ class FlightDelaySearchForm extends Component {
     const {
       _onChange,
       _onSubmit,
+      props: {
+        serverError
+      },
       state: {
         searchValue,
         valid,
@@ -85,8 +89,10 @@ class FlightDelaySearchForm extends Component {
       }
     } = this;
 
-    let errors = touched && error.length > 0 ?
-                  (<ErrorList errors={[{message: error}]} />) :
+    let errorMessage = error.length > 0 ? error : serverError;
+
+    let errors = touched && error.length > 0 || serverError.length > 0 ?
+                  (<ErrorList errors={[{message: errorMessage}]} />) :
                   null;
 
     return (

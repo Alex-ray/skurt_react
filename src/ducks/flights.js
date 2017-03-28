@@ -19,6 +19,7 @@ export const reducer = function (state = initialState, action = { }) {
   switch(action.type) {
     case FLIGHTS_ERROR:
       return state.merge({
+        searching: false,
         error: action.error
       });
     case FLIGHTS_SET_FLIGHT_TRACK:
